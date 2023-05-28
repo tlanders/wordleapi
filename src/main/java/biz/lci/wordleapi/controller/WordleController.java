@@ -1,7 +1,9 @@
 package biz.lci.wordleapi.controller;
 
 import biz.lci.wordleapi.domain.WordleTurn;
+import biz.lci.wordleapi.service.WordleService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +14,9 @@ import java.util.Map;
 @RequestMapping("/api/wordle")
 @RestController
 public class WordleController {
+    @Autowired
+    private WordleService wordleService;
+
     @GetMapping("/hello")
     public Mono<String> hello() {
         log.debug("GET hello");
@@ -20,6 +25,7 @@ public class WordleController {
 
     @PostMapping("/recommend")
     public Mono<Map> recommendSolution(@RequestBody List<WordleTurn> turns) {
-        return Mono.just(Map.of("recommendedSolution", "ABCDE"));
+        log.debug("POST recommend, turns={}", turns);
+        return Mono.just(wordleService.recommend(turns));
     }
 }
