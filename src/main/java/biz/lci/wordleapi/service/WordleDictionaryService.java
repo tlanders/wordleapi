@@ -1,11 +1,15 @@
-package biz.lci.wordleapi.domain;
+package biz.lci.wordleapi.service;
+
+import biz.lci.wordleapi.domain.WordleTurn;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 
-public class WordleDictionary {
+@Service
+public class WordleDictionaryService {
 
-    public List<String> findMatches(String matchStr) {
+    public List<String> findMatches(List<WordleTurn> turns) {
         return Collections.unmodifiableList(words);
     }
 
