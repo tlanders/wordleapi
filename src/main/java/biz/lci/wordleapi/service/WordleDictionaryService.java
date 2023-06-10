@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class WordleDictionaryService {
@@ -15,15 +16,46 @@ public class WordleDictionaryService {
 
         String turnRegex = buildRegex(turns.get(0).wordleResponse());
 
-        List<String> possibleWords = words.parallelStream().filter(aWord -> {
-            return aWord.matches(turnRegex);
-        })
+        List<String> possibleWords = words.parallelStream().filter(buildPredicate(turns.get(0).wordleResponse()))
                 .toList();
+
+//        List<String> possibleWords = words.parallelStream().filter(aWord -> {
+//            return aWord.matches(turnRegex);
+//        })
+//                .toList();
         return Collections.unmodifiableList(possibleWords);
     }
 
+    protected Predicate<String> buildPredicate(String wordleResponse) {
+        Predicate<String> p1 = str -> (str.charAt(0) == 'a');
+        return p1.and(str -> str.charAt(1) == 'b');
+    }
+
+    /**
+     * match 5-letter word with only one 'a'.
+     * ^(?=.{5}$)[^aA]*[aA][^aA]*$
+     *
+     * c must be in 2nd position. only one 'a' and one 'b' in rest of word.
+     * ^(?=.{5}$)[^abc][cC]([^ac]*[aA][^bc]*[bB][^ac]*|[^bc]*[bB][^ac]*[aA][^bc]*)$
+     *
+     * @param wordleResponse
+     * @return
+     */
     protected String buildRegex(String wordleResponse) {
-        return "b....";
+        // simple, hacky version
+        String regex = "^(?=.{5}$)";    // positive look
+        int spotsChecked = 0;
+        int index = 0;
+        while(spotsChecked++ < 5) {
+            char currentLetter = wordleResponse.charAt(index);
+            if(currentLetter == '-') {
+                regex += '.';
+                index++;
+            } else {
+
+            }
+        }
+        return regex;
     }
 
     List<String> words = List.of(    "rossa",

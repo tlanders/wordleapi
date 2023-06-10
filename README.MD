@@ -1,7 +1,8 @@
 
 ### Example request
 
-GET http://localhost:8080/api/wordle/recommend
+`POST http://localhost:8080/api/wordle/recommend
+`
 
 #### Example body
 
