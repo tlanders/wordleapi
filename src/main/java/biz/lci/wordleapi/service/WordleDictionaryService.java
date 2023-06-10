@@ -10,7 +10,20 @@ import java.util.List;
 public class WordleDictionaryService {
 
     public List<String> findMatches(List<WordleTurn> turns) {
-        return Collections.unmodifiableList(words);
+//        {"guess":"slate", "wordleResponse":"--a?t!-"},
+//        {"guess":"abets", "wordleResponse":"a?b?-t!-"}
+
+        String turnRegex = buildRegex(turns.get(0).wordleResponse());
+
+        List<String> possibleWords = words.parallelStream().filter(aWord -> {
+            return aWord.matches(turnRegex);
+        })
+                .toList();
+        return Collections.unmodifiableList(possibleWords);
+    }
+
+    protected String buildRegex(String wordleResponse) {
+        return "b....";
     }
 
     List<String> words = List.of(    "rossa",
