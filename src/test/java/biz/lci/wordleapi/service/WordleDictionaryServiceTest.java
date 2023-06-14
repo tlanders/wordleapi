@@ -1,8 +1,11 @@
 package biz.lci.wordleapi.service;
 
+import biz.lci.wordleapi.domain.WordleTurn;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +16,13 @@ public class WordleDictionaryServiceTest {
 
     @Test
     public void findMatches() {
-//        {"guess":"slate", "wordleResponse":"--a?t!-"},
-//        {"guess":"abets", "wordleResponse":"a?b?-t!-"}
+        List<String> matches = dictionary.findMatches(List.of(
+                new WordleTurn("slate", "--a?t!-"),
+                new WordleTurn("abets", "a?b?-t!-")
+        ));
+
+        assertTrue(matches.size() > 0);
+        assertTrue(matches.contains("abate"));
+        assertFalse(matches.contains("slate"));
     }
 }
