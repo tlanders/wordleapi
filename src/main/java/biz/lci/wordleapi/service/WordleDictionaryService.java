@@ -72,7 +72,7 @@ public class WordleDictionaryService {
 
     protected Predicate<String> getPredicate(int index, String letter, String status, String fullResponse) {
         Predicate<String> predicate = switch (status) {
-            case "-" -> getCharNotFoundPredicate(letter, fullResponse);
+            case "-" -> getCharNotFoundPredicate(index, letter, fullResponse);
             case "?" -> getCharInWordPredicate(index, letter, fullResponse);
             case "!" -> str -> str.charAt(index) == letter.charAt(0);
             default -> throw new RuntimeException("unknown status: " + status);
@@ -97,15 +97,16 @@ public class WordleDictionaryService {
         }
     }
 
-    private static Predicate<String> getCharNotFoundPredicate(String letter, String fullResponse) {
+    private static Predicate<String> getCharNotFoundPredicate(int index, String letter, String fullResponse) {
         // regex example: /^.*a(\?|!).*$/
         String charAppearsMultipleTimesInWordRegex = "^.*" + letter + "(\\?|!).*$";
 //        log.debug("charAppearsMultipleTimesInWordRegex={}", charAppearsMultipleTimesInWordRegex);
         if(fullResponse.matches(charAppearsMultipleTimesInWordRegex)) {
-            String charOnlyInWordOnceRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*$";
-            log.debug("charOnlyInWordOnceRegex={}", charOnlyInWordOnceRegex);
-            // regex example: /[^a]*a[^a]*/
-            return str -> str.matches(charOnlyInWordOnceRegex);
+//            String charOnlyInWordOnceRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*$";
+//            log.debug("charOnlyInWordOnceRegex={}", charOnlyInWordOnceRegex);
+//            // regex example: /[^a]*a[^a]*/
+//            return str -> str.matches(charOnlyInWordOnceRegex);
+            return str -> str.charAt(index) != letter.charAt(0);
         } else {
             return str -> !str.contains(letter);
         }
