@@ -1,5 +1,6 @@
 package biz.lci.wordleapi.service;
 
+import biz.lci.wordleapi.domain.WordleResponse;
 import biz.lci.wordleapi.domain.WordleTurn;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class WordleService {
         this.dictionary = dictionary;
     }
 
-    public Map<String,String> recommend(List<WordleTurn> turns) {
-        return Map.of("recommendedSolution", dictionary.findMatches(turns).get(0));
+    public WordleResponse recommend(List<WordleTurn> turns) {
+        List<String> possibleSolutions = dictionary.findMatches(turns);
+        return new WordleResponse(possibleSolutions.get(0), possibleSolutions);
     }
 }

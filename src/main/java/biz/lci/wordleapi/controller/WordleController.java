@@ -1,5 +1,6 @@
 package biz.lci.wordleapi.controller;
 
+import biz.lci.wordleapi.domain.WordleResponse;
 import biz.lci.wordleapi.domain.WordleTurn;
 import biz.lci.wordleapi.service.WordleService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class WordleController {
     }
 
     @PostMapping("/recommend")
-    public Mono<Map> recommendSolution(@RequestBody List<WordleTurn> turns) {
+    public Mono<WordleResponse> recommendSolution(@RequestBody List<WordleTurn> turns) {
         log.debug("POST recommend, turns={}", turns);
         return Mono.just(wordleService.recommend(turns));
     }
