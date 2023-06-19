@@ -43,18 +43,16 @@ class WordleServiceTest {
         assertFalse(response.possibleSolutions().contains("whack"), "whack isn't a valid solution");
         assertEquals("kazoo", response.recommendedSolution(), "kazoo is the exact solution");
 
-        // solution is kayak
-        response = wordleService.recommend(List.of(
-                "s-l-a?t-e-",
-                "p-a!r-k?a?",
-                "b-r-i-c-k!"
-        ));
+        testExactSolution("kayak", List.of("s-l-a?t-e-", "p-a!r-k?a?", "b-r-i-c-k!"));
+        testExactSolution("clasp", List.of("p?a?r-k-a-", "a?l!o-u-d-", "c!l!a!m-p!"));
+    }
+
+    private void testExactSolution(String exactSolution, List<String> wordleResponses) {
+        WordleRecommendation response = wordleService.recommend(wordleResponses);
 
         assertNotNull(response);
-        assertTrue(response.recommendedSolution().length() > 0);
-        assertTrue(response.possibleSolutions().size() > 0);
-        assertFalse(response.possibleSolutions().contains("kazoo"), "kazoo isn't a valid solution");
-        assertFalse(response.possibleSolutions().contains("whack"), "whack isn't a valid solution");
-        assertEquals("kayak", response.recommendedSolution(), "kayak is the exact solution");
+        assertTrue(response.recommendedSolution().length() > 0, "There should be a recommended solution");
+        assertTrue(response.possibleSolutions().size() > 0, "There should be at least 1 possible solution");
+        assertEquals(exactSolution, response.recommendedSolution(), exactSolution + " is the exact solution");
     }
 }

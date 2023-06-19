@@ -53,7 +53,7 @@ public class WordleDictionaryService {
             String currentLetter = wordleResponse.substring(i, i + 1);
             String letterStatus = wordleResponse.substring(i + 1, i + 2);
 
-            Predicate<String> p = getPredicate(i / 2, currentLetter, letterStatus);
+            Predicate<String> p = getPredicate(i / 2, currentLetter, letterStatus, wordleResponse);
 
             if(predicate == null) {
                 predicate = p;
@@ -64,22 +64,28 @@ public class WordleDictionaryService {
         return predicate;
     }
 
-    protected Predicate<String> getPredicate(int index, String letter, String status) {
-        Predicate<String> predicate = null;
-        switch(status) {
-            case "-":
-                predicate = str -> !str.contains(letter);
-                break;
-            case "?":
-                predicate = str -> str.contains(letter);
-                break;
-            case "!":
-                predicate = str -> str.charAt(index) == letter.charAt(0);
-                break;
-            default:
-                throw new RuntimeException("unknown status: " + status);
-        }
+    protected Predicate<String> getPredicate(int index, String letter, String status, String fullResponse) {
+        Predicate<String> predicate = switch (status) {
+            case "-" -> getCharNotFoundPredicate(letter, fullResponse);
+            case "?" -> str -> str.contains(letter);
+            case "!" -> str -> str.charAt(index) == letter.charAt(0);
+            default -> throw new RuntimeException("unknown status: " + status);
+        };
         return predicate;
+    }
+
+    private static Predicate<String> getCharNotFoundPredicate(String letter, String fullResponse) {
+        // regex example: /.*a(\?|!).*/
+        String charAppearsMultipleTimesInWordRegex = "^.*" + letter + "(\\?|!).*$";
+//        log.debug("charAppearsMultipleTimesInWordRegex={}", charAppearsMultipleTimesInWordRegex);
+        if(fullResponse.matches(charAppearsMultipleTimesInWordRegex)) {
+            String charOnlyInWordOnceRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*$";
+            log.debug("charOnlyInWordOnceRegex={}", charOnlyInWordOnceRegex);
+            // regex example: /[^a]*a[^a]*/
+            return str -> str.matches(charOnlyInWordOnceRegex);
+        } else {
+            return str -> !str.contains(letter);
+        }
     }
 
     /**

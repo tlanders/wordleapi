@@ -18,6 +18,6 @@ public class WordleService {
     public WordleRecommendation recommend(List<String> wordleResponses) {
         List<String> possibleSolutions = dictionary.findMatches(wordleResponses);
         log.debug("responses={}, possibleSolutions={}", wordleResponses, possibleSolutions);
-        return new WordleRecommendation(possibleSolutions.get(0), possibleSolutions);
+        return new WordleRecommendation(possibleSolutions.size() > 0 ? possibleSolutions.get(0) : "", possibleSolutions);
     }
 }
