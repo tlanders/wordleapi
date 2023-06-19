@@ -38,6 +38,12 @@ public class WordleDictionaryService {
         return possibleWords;
     }
 
+    /**
+     * TODO - Optimize order of predicates. The first predicate should be the one that will eliminate the most words.
+     *   First do exact matches, then do excluded letters, and finally do char in words checks.
+     * @param wordleResponses
+     * @return
+     */
     protected Predicate<String> buildPredicate(List<String> wordleResponses) {
         Predicate<String> predicate = buildPredicate(wordleResponses.get(0));
         for(int i = 1; i < wordleResponses.size(); i++) {
@@ -83,7 +89,7 @@ public class WordleDictionaryService {
 //        log.debug("charAppearsMultipleTimesInWordRegex={}", charAppearsMultipleTimesInWordRegex);
         if(fullResponse.matches(charAppearsMultipleTimesInWordRegex)) {
             // regex example: /^[^a]*a[^a]*a[^a]*$/
-            final String charAppearsTwiceInWordRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*" + letter + "[^" + letter + "]*$";
+            final String charAppearsTwiceInWordRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*" + letter + ".*$";
             log.debug("charAppearsTwiceInWordRegex={}", charAppearsTwiceInWordRegex);
             return str -> str.matches(charAppearsTwiceInWordRegex);
         } else {
