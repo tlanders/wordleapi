@@ -17,8 +17,8 @@ public class WordleDictionaryServiceTest {
     @Test
     public void findMatches() {
         List<String> matches = dictionary.findMatches(List.of(
-                new WordleTurn("slate", "--a?t!-"),
-                new WordleTurn("abets", "a?b?-t!-")
+                "--a?t!-",
+                "a?b?-t!-"
         ));
 
         assertTrue(matches.size() > 0);

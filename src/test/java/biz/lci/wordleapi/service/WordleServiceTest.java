@@ -1,6 +1,6 @@
 package biz.lci.wordleapi.service;
 
-import biz.lci.wordleapi.domain.WordleResponse;
+import biz.lci.wordleapi.domain.WordleRecommendation;
 import biz.lci.wordleapi.domain.WordleTurn;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,30 @@ class WordleServiceTest {
 
     @Test
     public void testRecommend() {
-        WordleResponse response = wordleService.recommend(List.of(
-                new WordleTurn("slate", "--a?t!-"),
-                new WordleTurn("abets", "a?b?-t!-")
+        WordleRecommendation response = wordleService.recommend(List.of(
+                "s-l-a?t!e-",
+                "a?b?e-t!s-"
         ));
 
         assertNotNull(response);
         assertTrue(response.recommendedSolution().length() > 0);
         assertTrue(response.possibleSolutions().size() > 0);
-        assertTrue(response.possibleSolutions().contains("abate"));
+        assertTrue(response.possibleSolutions().contains("abets"));
         assertFalse(response.possibleSolutions().contains("slate"));
+/*
+        response = wordleService.recommend(List.of(
+                new WordleTurn("least", "--a?--"),
+                new WordleTurn("adorn", "a?-o?--"),
+                new WordleTurn("whack", "--a?-k?")
+//                new WordleTurn("kazoo", "k!a!z!o!o!")
+        ));
+
+        assertNotNull(response);
+        assertTrue(response.recommendedSolution().length() > 0);
+        assertTrue(response.possibleSolutions().size() > 0);
+        assertTrue(response.possibleSolutions().contains("kazoo"));
+        assertFalse(response.possibleSolutions().contains("whack"));
+
+ */
     }
 }
