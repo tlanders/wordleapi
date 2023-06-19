@@ -24,8 +24,9 @@ class WordleServiceTest {
         assertNotNull(response);
         assertTrue(response.recommendedSolution().length() > 0);
         assertTrue(response.possibleSolutions().size() > 0);
-        assertTrue(response.possibleSolutions().contains("batty"));
-        assertFalse(response.possibleSolutions().contains("slate"));
+        assertTrue(response.possibleSolutions().contains("batty"), "batty should be a solution");
+        assertFalse(response.possibleSolutions().contains("slate"), "slate isn't a valid solution");
+        assertFalse(response.possibleSolutions().contains("party"), "party isn't a valid solution");
 /*
         response = wordleService.recommend(List.of(
                 new WordleTurn("least", "--a?--"),

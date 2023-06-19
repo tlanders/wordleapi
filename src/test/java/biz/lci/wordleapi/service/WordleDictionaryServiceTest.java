@@ -21,7 +21,8 @@ public class WordleDictionaryServiceTest {
         ));
 
         assertTrue(matches.size() > 0);
-        assertTrue(matches.contains("batty"));
-        assertFalse(matches.contains("slate"));
+        assertTrue(matches.contains("batty"), "batty should be a solution");
+        assertFalse(matches.contains("slate"), "slate isn't a valid solution");
+        assertFalse(matches.contains("party"), "party isn't a valid solution");
     }
 }

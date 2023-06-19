@@ -25,24 +25,28 @@ public class WordleDictionaryService {
     }
 
     public List<String> findMatches(List<String> wordleResponses) {
-//        {"guess":"slate", "wordleResponse":"--a?t!-"},
-//        {"guess":"abets", "wordleResponse":"a?b?-t!-"}
+        List<String> possibleWords = words.parallelStream().filter(buildPredicate(wordleResponses))
+                .toList();
 
 //        String turnRegex = buildRegex(wordleResponses.get(0));
-
-        List<String> possibleWords = words.parallelStream().filter(buildPredicate(wordleResponses.get(0)))
-                .toList();
 
 //        List<String> possibleWords = words.parallelStream().filter(aWord -> {
 //            return aWord.matches(turnRegex);
 //        })
 //                .toList();
+
         return possibleWords;
     }
 
+    protected Predicate<String> buildPredicate(List<String> wordleResponses) {
+        Predicate<String> predicate = buildPredicate(wordleResponses.get(0));
+        for(int i = 1; i < wordleResponses.size(); i++) {
+            predicate = predicate.and(buildPredicate(wordleResponses.get(i)));
+        }
+        return predicate;
+    }
+
     protected Predicate<String> buildPredicate(String wordleResponse) {
-//        Predicate<String> p1 = str -> (str.charAt(0) == 'a');
-//        return p1.and(str -> str.charAt(1) == 'b');
         Predicate<String> predicate = null;
 
         for(int i = 0; i < 10; i += 2) {
