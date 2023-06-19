@@ -1,7 +1,6 @@
 package biz.lci.wordleapi.controller;
 
 import biz.lci.wordleapi.domain.WordleRecommendation;
-import biz.lci.wordleapi.domain.WordleTurn;
 import biz.lci.wordleapi.service.WordleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

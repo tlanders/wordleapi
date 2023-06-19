@@ -1,7 +1,6 @@
 package biz.lci.wordleapi.service;
 
 import biz.lci.wordleapi.domain.WordleRecommendation;
-import biz.lci.wordleapi.domain.WordleTurn;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
