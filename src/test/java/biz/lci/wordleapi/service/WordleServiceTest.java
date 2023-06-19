@@ -25,7 +25,7 @@ class WordleServiceTest {
         assertNotNull(response);
         assertTrue(response.recommendedSolution().length() > 0);
         assertTrue(response.possibleSolutions().size() > 0);
-        assertTrue(response.possibleSolutions().contains("abets"));
+        assertTrue(response.possibleSolutions().contains("batty"));
         assertFalse(response.possibleSolutions().contains("slate"));
 /*
         response = wordleService.recommend(List.of(

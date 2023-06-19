@@ -45,8 +45,41 @@ public class WordleDictionaryService {
     }
 
     protected Predicate<String> buildPredicate(String wordleResponse) {
-        Predicate<String> p1 = str -> (str.charAt(0) == 'a');
-        return p1.and(str -> str.charAt(1) == 'b');
+//        Predicate<String> p1 = str -> (str.charAt(0) == 'a');
+//        return p1.and(str -> str.charAt(1) == 'b');
+        Predicate<String> predicate = null;
+
+        for(int i = 0; i < 10; i += 2) {
+            String currentLetter = wordleResponse.substring(i, i + 1);
+            String letterStatus = wordleResponse.substring(i + 1, i + 2);
+
+            Predicate<String> p = getPredicate(i / 2, currentLetter, letterStatus);
+
+            if(predicate == null) {
+                predicate = p;
+            } else {
+                predicate = predicate.and(p);
+            }
+        }
+        return predicate;
+    }
+
+    protected Predicate<String> getPredicate(int index, String letter, String status) {
+        Predicate<String> predicate = null;
+        switch(status) {
+            case "-":
+                predicate = str -> !str.contains(letter);
+                break;
+            case "?":
+                predicate = str -> str.contains(letter);
+                break;
+            case "!":
+                predicate = str -> str.charAt(index) == letter.charAt(0);
+                break;
+            default:
+                throw new RuntimeException("unknown status: " + status);
+        }
+        return predicate;
     }
 
     /**

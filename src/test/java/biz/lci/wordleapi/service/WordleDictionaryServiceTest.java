@@ -17,12 +17,12 @@ public class WordleDictionaryServiceTest {
     @Test
     public void findMatches() {
         List<String> matches = dictionary.findMatches(List.of(
-                "--a?t!-",
-                "a?b?-t!-"
+                "s-l-a?t!e-",
+                "a?b?e-t!s-"
         ));
 
         assertTrue(matches.size() > 0);
-        assertTrue(matches.contains("abate"));
+        assertTrue(matches.contains("batty"));
         assertFalse(matches.contains("slate"));
     }
 }
