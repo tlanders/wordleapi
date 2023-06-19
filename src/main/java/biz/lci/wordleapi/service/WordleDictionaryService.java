@@ -67,15 +67,32 @@ public class WordleDictionaryService {
     protected Predicate<String> getPredicate(int index, String letter, String status, String fullResponse) {
         Predicate<String> predicate = switch (status) {
             case "-" -> getCharNotFoundPredicate(letter, fullResponse);
-            case "?" -> str -> str.contains(letter);
+            case "?" -> getCharInWordPredicate(index, letter, fullResponse);
             case "!" -> str -> str.charAt(index) == letter.charAt(0);
             default -> throw new RuntimeException("unknown status: " + status);
         };
         return predicate;
     }
 
+    /**
+     * Get a predicate that returns true if the word contains the letter, but not at the given index.
+     */
+    private static Predicate<String> getCharInWordPredicate(int index, String letter, String fullResponse) {
+        // regex example: /^.*a(\?|!).*a(\?|!).*$/
+        String charAppearsMultipleTimesInWordRegex = "^.*" + letter + "(\\?|!).*" + letter + "(\\?|!).*$";
+//        log.debug("charAppearsMultipleTimesInWordRegex={}", charAppearsMultipleTimesInWordRegex);
+        if(fullResponse.matches(charAppearsMultipleTimesInWordRegex)) {
+            // regex example: /^[^a]*a[^a]*a[^a]*$/
+            final String charAppearsTwiceInWordRegex = "^[^" + letter + "]*" + letter + "[^" + letter + "]*" + letter + "[^" + letter + "]*$";
+            log.debug("charAppearsTwiceInWordRegex={}", charAppearsTwiceInWordRegex);
+            return str -> str.matches(charAppearsTwiceInWordRegex);
+        } else {
+            return str -> str.contains(letter) && str.charAt(index) != letter.charAt(0);
+        }
+    }
+
     private static Predicate<String> getCharNotFoundPredicate(String letter, String fullResponse) {
-        // regex example: /.*a(\?|!).*/
+        // regex example: /^.*a(\?|!).*$/
         String charAppearsMultipleTimesInWordRegex = "^.*" + letter + "(\\?|!).*$";
 //        log.debug("charAppearsMultipleTimesInWordRegex={}", charAppearsMultipleTimesInWordRegex);
         if(fullResponse.matches(charAppearsMultipleTimesInWordRegex)) {

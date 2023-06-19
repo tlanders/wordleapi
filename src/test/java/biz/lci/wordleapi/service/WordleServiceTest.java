@@ -45,6 +45,8 @@ class WordleServiceTest {
 
         testExactSolution("kayak", List.of("s-l-a?t-e-", "p-a!r-k?a?", "b-r-i-c-k!"));
         testExactSolution("clasp", List.of("p?a?r-k-a-", "a?l!o-u-d-", "c!l!a!m-p!"));
+        testExactSolution("kayak", List.of("p-a!r-k?a?", "w-a!c-k?y?"));
+        testExactSolution("ozone", List.of("c-o?c-o?a-", "s-h-o!n!e!"));
     }
 
     private void testExactSolution(String exactSolution, List<String> wordleResponses) {
@@ -52,7 +54,7 @@ class WordleServiceTest {
 
         assertNotNull(response);
         assertTrue(response.recommendedSolution().length() > 0, "There should be a recommended solution");
-        assertTrue(response.possibleSolutions().size() > 0, "There should be at least 1 possible solution");
+        assertTrue(response.possibleSolutions().size() == 1, "There should only be 1 possible solution");
         assertEquals(exactSolution, response.recommendedSolution(), exactSolution + " is the exact solution");
     }
 }
