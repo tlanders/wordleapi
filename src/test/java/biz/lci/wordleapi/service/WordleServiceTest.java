@@ -45,6 +45,7 @@ class WordleServiceTest {
 
         testPossibleSolutions(List.of("yummy", "nymph", "dummy"), List.of("m?a-y?b-e-"));
         testPossibleSolutions(List.of("gamma", "comma"), List.of("m-u-m!m!y-"));
+        testPossibleSolutions(List.of("frost"), List.of("s?l-a-t?e-", "g-h-o!s!t!"));   // 6/20 wordle (wordlebot suggested "trout" instead of ghost)
 
         testExactSolution("kayak", List.of("k!a!y!a!k!"));
         testExactSolution("kayak", List.of("s-l-a?t-e-", "p-a!r-k?a?", "b-r-i-c-k!"));
