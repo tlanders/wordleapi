@@ -53,6 +53,7 @@ class WordleServiceTest {
         testPossibleSolutions(List.of("yummy", "nymph", "dummy"), List.of("m?a-y?b-e-"));
         testPossibleSolutions(List.of("gamma", "comma"), List.of("m-u-m!m!y-"));
         testPossibleSolutions(List.of("frost"), List.of("s?l-a-t?e-", "g-h-o!s!t!"));   // 6/20 wordle (wordlebot suggested "trout" instead of ghost)
+        testPossibleSolutions(List.of("quest", "guest", "chest"), List.of("s?t?a-i-n-", "b-l-e!s!t!"));   // 6/26 wordle
 
         testExactSolution("kayak", List.of("k!a!y!a!k!"));
         testExactSolution("kayak", List.of("s-l-a?t-e-", "p-a!r-k?a?", "b-r-i-c-k!"));
@@ -64,6 +65,7 @@ class WordleServiceTest {
         testExactSolution("eerie", List.of("s-n-e?e?r?", "g-e!n-r?e!", "s-e!r!v-e!"));
         testExactSolution("mummy", List.of("a-m?m!o-s-", "m!i-m!i-c-"));
         testExactSolution("gamma", List.of("m-u-m!m!y-", "b-e-a?c-h-"));
+        testExactSolution("guest", List.of("s?t?a-i-n-", "b-l-e!s!t!", "c-h-e!s!t!", "q-u!e!s!t!"));   // 6/26 wordle
     }
 
     private void testExactSolution(String exactSolution, List<String> wordleResponses) {
