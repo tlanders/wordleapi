@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -21,12 +22,14 @@ class WordleServiceTest {
                 "a?b?e-t!s-"
         ));
 
-        assertNotNull(response);
-        assertTrue(response.recommendedSolution().length() > 0);
-        assertTrue(response.possibleSolutions().size() > 0);
-        assertTrue(response.possibleSolutions().contains("batty"), "batty should be a solution");
-        assertFalse(response.possibleSolutions().contains("slate"), "slate isn't a valid solution");
-        assertFalse(response.possibleSolutions().contains("party"), "party isn't a valid solution");
+        assertThat(response).isNotNull();
+
+        assertThat(response.recommendedSolution()).hasSizeGreaterThan(0);
+
+        assertThat(response.possibleSolutions())
+                .hasSizeGreaterThan(0)
+                .contains("batty")
+                .doesNotContain("slate", "party");
 
         // solution is kazoo
         response = wordleService.recommend(List.of(
@@ -36,12 +39,16 @@ class WordleServiceTest {
                 "k!a!b-o!b-"
         ));
 
-        assertNotNull(response);
-        assertTrue(response.recommendedSolution().length() > 0);
-        assertTrue(response.possibleSolutions().size() > 0);
-        assertTrue(response.possibleSolutions().contains("kazoo"), "kazoo should be a possible solution");
-        assertFalse(response.possibleSolutions().contains("whack"), "whack isn't a valid solution");
-        assertEquals("kazoo", response.recommendedSolution(), "kazoo is the exact solution");
+        assertThat(response).isNotNull();
+
+        assertThat(response.recommendedSolution())
+                .hasSizeGreaterThan(0)
+                .isEqualTo("kazoo");
+
+        assertThat(response.possibleSolutions())
+                .hasSizeGreaterThan(0)
+                .contains("kazoo")
+                .doesNotContain("whack");
 
         testPossibleSolutions(List.of("yummy", "nymph", "dummy"), List.of("m?a-y?b-e-"));
         testPossibleSolutions(List.of("gamma", "comma"), List.of("m-u-m!m!y-"));

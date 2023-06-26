@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class WordleDictionaryServiceTest {
@@ -20,9 +20,12 @@ public class WordleDictionaryServiceTest {
                 "a?b?e-t!s-"
         ));
 
-        assertTrue(matches.size() > 0);
-        assertTrue(matches.contains("batty"), "batty should be a solution");
-        assertFalse(matches.contains("slate"), "slate isn't a valid solution");
-        assertFalse(matches.contains("party"), "party isn't a valid solution");
+        assertThat(matches)
+                .as("Should be at least 1 match")
+                .hasSizeGreaterThan(0)
+                .as("batty should be a possible solution")
+                .contains("batty")
+                .as("slate or party are not possible solutions")
+                .doesNotContain("slate", "party");
     }
 }
