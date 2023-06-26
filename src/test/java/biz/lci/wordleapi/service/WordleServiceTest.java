@@ -69,20 +69,24 @@ class WordleServiceTest {
     private void testExactSolution(String exactSolution, List<String> wordleResponses) {
         WordleRecommendation response = wordleService.recommend(wordleResponses);
 
-        assertNotNull(response);
-        assertTrue(response.recommendedSolution().length() > 0, "There should be a recommended solution");
-        assertTrue(response.possibleSolutions().size() == 1, "There should only be 1 possible solution");
-        assertEquals(exactSolution, response.recommendedSolution(), exactSolution + " is the exact solution");
+        assertThat(response).isNotNull();
+
+        assertThat(response.recommendedSolution()).hasSizeGreaterThan(0);
+
+        assertThat(response.possibleSolutions())
+                .hasSize(1)
+                .containsExactly(exactSolution);
     }
 
     private void testPossibleSolutions(List<String> expectedPossibleSolutions, List<String> wordleResponses) {
         WordleRecommendation response = wordleService.recommend(wordleResponses);
 
-        assertNotNull(response);
-        assertTrue(response.recommendedSolution().length() > 0, "There should be a recommended solution");
-        assertTrue(response.possibleSolutions().size() > 0, "There should only be 1 possible solution");
-        for(String expectedPossibleSolution : expectedPossibleSolutions) {
-            assertTrue(response.possibleSolutions().contains(expectedPossibleSolution), expectedPossibleSolution + " should be a possible solution");
-        }
+        assertThat(response).isNotNull();
+
+        assertThat(response.recommendedSolution()).hasSizeGreaterThan(0);
+
+        assertThat(response.possibleSolutions())
+                .hasSizeGreaterThan(0)
+                .containsAll(expectedPossibleSolutions);
     }
 }
