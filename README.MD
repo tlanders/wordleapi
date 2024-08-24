@@ -27,3 +27,4 @@ Allegedly the full list of the 12972 words recognized by the official wordle gam
 
 ### wordle-dictionary.txt
 Allegedly the list of all 2315 words that will become the official wordle at some point, shuffled to prevent spoilers (from https://github.com/Kinkelin/WordleCompetition).
+Note that "kazoo" is missing.

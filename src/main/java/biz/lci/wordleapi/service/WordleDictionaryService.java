@@ -13,7 +13,8 @@ import java.util.function.Predicate;
 @Service
 @Slf4j
 public class WordleDictionaryService {
-    @Value("classpath:wordle-dictionary.txt")
+//    @Value("classpath:wordle-dictionary.txt")
+    @Value("classpath:complete-word-list.txt")
     private org.springframework.core.io.Resource wordleDictionaryFile;
 
     protected List<String> words;
@@ -25,17 +26,7 @@ public class WordleDictionaryService {
     }
 
     public List<String> findMatches(List<String> wordleResponses) {
-        List<String> possibleWords = words.parallelStream().filter(buildPredicate(wordleResponses))
-                .toList();
-
-//        String turnRegex = buildRegex(wordleResponses.get(0));
-
-//        List<String> possibleWords = words.parallelStream().filter(aWord -> {
-//            return aWord.matches(turnRegex);
-//        })
-//                .toList();
-
-        return possibleWords;
+        return words.parallelStream().filter(buildPredicate(wordleResponses)).toList();
     }
 
     /**
@@ -71,13 +62,12 @@ public class WordleDictionaryService {
     }
 
     protected Predicate<String> getPredicate(int index, String letter, String status, String fullResponse) {
-        Predicate<String> predicate = switch (status) {
+        return switch (status) {
             case "-" -> getCharNotFoundPredicate(index, letter, fullResponse);
             case "?" -> getCharInWordPredicate(index, letter, fullResponse);
             case "!" -> str -> str.charAt(index) == letter.charAt(0);
             default -> throw new RuntimeException("unknown status: " + status);
         };
-        return predicate;
     }
 
     /**
@@ -124,18 +114,18 @@ public class WordleDictionaryService {
      */
     protected String buildRegex(String wordleResponse) {
         // simple, hacky version
-        String regex = "^(?=.{5}$)";    // positive look
+        StringBuilder regex = new StringBuilder("^(?=.{5}$)");    // positive look
         int spotsChecked = 0;
         int index = 0;
         while(spotsChecked++ < 5) {
             char currentLetter = wordleResponse.charAt(index);
             if(currentLetter == '-') {
-                regex += '.';
+                regex.append('.');
                 index++;
             } else {
 
             }
         }
-        return regex;
+        return regex.toString();
     }
 }
