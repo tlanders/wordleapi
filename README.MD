@@ -7,21 +7,23 @@
 #### Example body
 
 `[
-  {"guess":"slate", "wordleResponse":"--a?t!-"},
-  {"guess":"abets", "wordleResponse":"a?b?-t!-"}
+  "s-l-a?t!e-",
+  "p-a!r-t!y-"
 ]`
+
+"s-" means that "s" is not in the solution.
+"a?" means that at least one "a" is in the solution, but not at the current position.
+"t!" means that "t" is in the solution and at the current position.
 
 #### Example response
 
 `{
-  "recommendedSolution": "rossa",
-  "allowedLetters" : ["a","b","c"],
-  "usedLetters" : ["s","e"]
+  "recommendedSolution": "faith",
+  "possibleSolutions" : ["cacti", "faith"]
 }`
 
 ### complete-word-list.txt 
-Allegedly the complete list of words that are recognized by Wordle (from https://github.com/Kinkelin/WordleCompetition).
+Allegedly the full list of the 12972 words recognized by the official wordle game (from https://github.com/Kinkelin/WordleCompetition).
 
 ### wordle-dictionary.txt
-Allegedly the list of words that will appear in Wordle (from https://github.com/Kinkelin/WordleCompetition). "kazoo"
-from 6/19 was missing though.
+Allegedly the list of all 2315 words that will become the official wordle at some point, shuffled to prevent spoilers (from https://github.com/Kinkelin/WordleCompetition).

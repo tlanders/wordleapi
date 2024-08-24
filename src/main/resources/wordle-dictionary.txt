@@ -2313,5 +2313,3 @@ sober
 apnea
 chain
 beret
-kazoo
-yummy
