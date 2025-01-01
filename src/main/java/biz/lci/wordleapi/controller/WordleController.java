@@ -22,6 +22,7 @@ public class WordleController {
         return Mono.just("Hello Wordle");
     }
 
+    @CrossOrigin
     @PostMapping("/recommend")
     public Mono<WordleRecommendation> recommendSolution(@RequestBody List<String> wordleResponses) {
         log.debug("POST recommend, wordleResponses={}", wordleResponses);
