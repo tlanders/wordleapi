@@ -36,9 +36,9 @@ public class WordleDictionaryService {
      * @return
      */
     protected Predicate<String> buildPredicate(List<String> wordleResponses) {
-        Predicate<String> predicate = buildPredicate(wordleResponses.get(0));
+        Predicate<String> predicate = buildPredicate(wordleResponses.get(0).toLowerCase());
         for(int i = 1; i < wordleResponses.size(); i++) {
-            predicate = predicate.and(buildPredicate(wordleResponses.get(i)));
+            predicate = predicate.and(buildPredicate(wordleResponses.get(i).toLowerCase()));
         }
         return predicate;
     }
